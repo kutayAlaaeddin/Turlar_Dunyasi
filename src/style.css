@@ -1,0 +1,102 @@
+.container {
+	margin-top: 10px;
+	margin-bottom: 10px;
+}
+/* * {
+	padding: 0;
+	margin: 0;
+} */
+
+body {
+	background-image: url("https://images.pexels.com/photos/1903702/pexels-photo-1903702.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940");
+	background-size: cover;
+}
+label {
+	margin-left: 5px;
+}
+img {
+	margin: 5px;
+	max-height: 150px;
+	width: 100%;
+}
+.dis {
+	display: inline-block;
+	justify-content: center;
+
+	margin-top: 10px;
+}
+h6,
+h5 {
+	margin: 5px;
+}
+
+h6 {
+	text-align: center;
+}
+
+.hieght {
+	height: 550px;
+	margin: 0 auto;
+	width: 25rem;
+}
+.hieght .hieght-b {
+	height: 590px;
+}
+.hieght-h {
+	height: 550px;
+}
+p {
+	font-size: 1.2rem;
+}
+a {
+	margin: 7px;
+}
+.card-footer {
+	padding: 0;
+	background-color: #17a2b8;
+}
+.the-head .lang ul {
+	list-style-type: none;
+	display: flex;
+	justify-content: center;
+}
+.head-links a:hover {
+	color: gray;
+}
+.head-links a {
+	color: white;
+}
+
+.slayd {
+	width: 100%;
+	position: relative;
+}
+.prev {
+
+	position: absolute;
+	top: 45%;
+	left: 25%;
+	float: left;
+	font-size: 4rem;
+}
+.next {
+	position: absolute;
+	top: 45%;
+	right: 25%;
+	float: left;
+	font-size: 4rem;
+}
+.slayd a .next, .prev {
+	color: rgba(91, 192, 222);
+}
+
+.slayd .card-title {
+	background-color: #17a2b8;
+	color: white;
+}
+.text-center {
+	text-align: center;
+}
+.padding {
+	margin: 3rem;
+}
