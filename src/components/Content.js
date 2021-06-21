@@ -1,216 +1,344 @@
 import React, { Component } from 'react';
 import CreatContent from './CreatContent';
+import Head from './Head';
 import SgkTurList from './lists/SgkTurList';
 import DigerTurList from './lists/DigerTurList';
 import KulturTurList from './lists/KulturTurList';
 import KisTurList from './lists/KisTurList';
 import EglenceTurList from './lists/EglenceTurList';
-import MainContent from './MainContent';
+import Home from './Home';
+import Contact from './Contact';
+import About from './About';
 
 export class Content extends Component {
+	// State atanması ve click fonk. bağlama yeri
 	constructor() {
 		super();
 		this.state = {
-			Counter: 0,
-			list: [],
-			mainContent: <MainContent />
+			hasChanged: false,
+			counterOfSgk: 0,
+			counterOfKultur: 0,
+			counterOfKis: 0,
+			counterOfEglence: 0,
+			counterOfDiger: 0,
+			mainContent: <Home />
 		};
-		this.sgk_tur_click = this.sgk_tur_click.bind(this); // click metodunu bağlamak için
+		this.sgk_tur_click = this.sgk_tur_click.bind(this); 
 		this.kultur_tur_click = this.kultur_tur_click.bind(this);
 		this.kis_tur_click = this.kis_tur_click.bind(this);
 		this.eglence_tur_click = this.eglence_tur_click.bind(this);
 		this.diger_tur_click = this.diger_tur_click.bind(this);
-
 	}
-home_page_click(){
-	this.state.mainContent = this.viwedList;
-}
-	// Sağlık turlarından ilk elelman gösterme işlemi
+// mainContent = ana sayfa
+	homePage = () => {
+		this.setState(() => {
+			return {
+				hasChanged: true
+			};
+		});
+		this.state.mainContent = Home();
+	};
+	// mainContent = hakkımızda
+	about = () => {
+		this.setState(() => {
+			return {
+				hasChanged: true
+			};
+		});
+		this.state.mainContent = About();
+	};
+	// mainContent = iletişim
+	contact = () => {
+		this.setState(() => {
+			return {
+				hasChanged: true
+			};
+		});
+		this.state.mainContent = Contact();
+	};
+// gelen parametreye göre counterlerden bir tanesini (1) arttırmak (counterOfSgk, counterOfDiger vs.....)         -->
+	increment = (ktgr) => {
+		switch (ktgr) {
+			case 'Saglik':
+				if (this.state.counterOfSgk < SgkTurList().length - 1) {
+					this.setState((praveState) => {
+						return {
+							counterOfSgk: praveState.counterOfSgk + 1
+						};
+					});
+					
+	
+				}
+				break;
+			case 'Kultur':
+				if (this.state.counterOfKultur < KulturTurList().length - 1) {
+					this.setState((praveState) => {
+						return {
+							counterOfKultur: praveState.counterOfKultur + 1
+						};
+					});
+				}
+				break;
+
+			case 'Kis':
+				if (this.state.counterOfKis < KisTurList().length - 1) {
+					this.setState((praveState) => {
+						return {
+							counterOfKis: praveState.counterOfKis + 1
+						};
+					});
+				}
+				break;
+			case 'Eglence':
+				if (this.state.counterOfEglence < EglenceTurList().length - 1) {
+					this.setState((praveState) => {
+						return {
+							counterOfEglence: praveState.counterOfEglence + 1
+						};
+					});
+				}
+				break;
+			case 'Diger':
+				if (this.state.counterOfDiger < DigerTurList().length - 1) {
+					this.setState((praveState) => {
+						return {
+							counterOfDiger: praveState.counterOfDiger + 1
+						};
+					});
+				}
+				break;
+		}
+
+	};
+	// gelen parametreye göre counterlerden bir tanesini (1) azaltmak (counterOfSgk, counterOfDiger vs.....)         <--
+	reduce = (ktgr) => {
+		switch (ktgr) {
+			case 'Saglik':
+				if (this.state.counterOfSgk !== 0) {
+					console.log('mer sg');
+					this.setState((praveState) => {
+						return {
+							counterOfSgk: praveState.counterOfSgk - 1
+						};
+					});
+				}
+				break;
+			case 'Kultur':
+				if (this.state.counterOfKultur !== 0) {
+					console.log('mer ku');
+					this.setState((praveState) => {
+						return {
+							counterOfKultur: praveState.counterOfKultur - 1
+						};
+					});
+				}
+				break;
+
+			case 'Kis':
+				if (this.state.counterOfKis !== 0) {
+					this.setState((praveState) => {
+						console.log('mer ki');
+						return {
+							counterOfKis: praveState.counterOfKis - 1
+						};
+					});
+				}
+				break;
+			case 'Eglence':
+				if (this.state.counterOfEglence !== 0) {
+					this.setState((praveState) => {
+						return {
+							counterOfEglence: praveState.counterOfEglence - 1
+						};
+					});
+				}
+				break;
+			case 'Diger':
+				if (this.state.counterOfDiger !== 0) {
+					this.setState((praveState) => {
+						return {
+							counterOfDiger: praveState.counterOfDiger - 1
+						};
+					});
+				}
+				break;
+			default:
+				this.setState(() => {
+					return {
+						counterOfSgk: 0,
+						counterOfKultur: 0,
+						counterOfKis: 0,
+						counterOfEglence: 0,
+						counterOfDiger: 0
+					};
+				});
+		}
+	};
+
+	// counter değerini baz alarak index olarak listelere verilmesi ve maptan geçirilerek creatContent dosyasına props atama işlemidir
 
 	sgk_tur_click() {
-		this.setState((praveState) => {
-			return {
-				List: SgkTurList
-			};
-		});
-
-		this.viwedList = [ SgkTurList()[0] ].map((tur) => (
+		this.viwedList = [ SgkTurList()[this.state.counterOfSgk] ].map((tur, index) => (
 			<CreatContent
-				counter={tur.id}
+				key={index}
 				turName={tur.name}
 				img={tur.img}
 				country={tur.country}
 				description={tur.description}
 				theState={tur.theState}
 				kategori={tur.kategori}
+				increment={this.increment}
+				reduce={this.reduce}
 			/>
 		));
-		this.state.mainContent = this.viwedList;
+
+		this.setState(() => {
+			return {
+				mainContent: this.viwedList ,
+				hasChanged: true
+			
+			};
+		});
 	}
-	// Kültür turlarından ilk elelman gösterme işlemi
+
+//***************************************************************** */
 
 	kultur_tur_click() {
-		this.setState((praveState) => {
-			return {
-				List: KulturTurList
-			};
-		});
 
-		this.viwedList = [ KulturTurList()[0] ].map((tur) => (
+		this.viwedList = [ KulturTurList()[this.state.counterOfKultur] ].map((tur) => (
 			<CreatContent
-				counter={tur.id}
+				key={tur.id}
 				turName={tur.name}
 				img={tur.img}
 				country={tur.country}
 				description={tur.description}
 				theState={tur.theState}
 				kategori={tur.kategori}
+				increment={this.increment}
+				reduce={this.reduce}
 			/>
 		));
-		this.state.mainContent = this.viwedList;
+
+		this.setState(() => {
+			return {
+				mainContent: this.viwedList
+			};
+		});
 	}
-	// Kış turlarından ilk elelman gösterme işlemi
+	//***************************************************************** */
 	kis_tur_click() {
-		// bu kod parçacığı sadece ekranda değişklik yapmamıza izin veriyor (state ulaştığı için)
-		this.setState((praveState) => {
-			return {
-				List: KulturTurList
-			};
-		});
 
-		this.viwedList = [ KisTurList()[this.state.Counter] ].map((tur) => (
+
+		this.viwedList = [ KisTurList()[this.state.counterOfKis] ].map((tur) => (
 			<CreatContent
-				counter={tur.id}
+				key={tur.id}
 				turName={tur.name}
 				img={tur.img}
 				country={tur.country}
 				description={tur.description}
 				theState={tur.theState}
 				kategori={tur.kategori}
+				increment={this.increment}
+				reduce={this.reduce}
 			/>
 		));
-		this.state.mainContent = this.viwedList;
+		this.setState(() => {
+			return {
+				mainContent: this.viwedList
+			};
+		});
 	}
-	// Eğlence turlarından ilk elelman gösterme işlemi
+//***************************************************************** */
 	eglence_tur_click() {
-		this.setState((praveState) => {
-			return {
-				List: KulturTurList
-			};
-		});
 
-		this.viwedList = [ EglenceTurList()[0] ].map((tur) => (
+
+		this.viwedList = [ EglenceTurList()[this.state.counterOfEglence] ].map((tur) => (
 			<CreatContent
-				counter={tur.id}
+				key={tur.id}
 				turName={tur.name}
 				img={tur.img}
 				country={tur.country}
 				description={tur.description}
 				theState={tur.theState}
 				kategori={tur.kategori}
+				increment={this.increment}
+				reduce={this.reduce}
 			/>
+			
 		));
-		this.state.mainContent = this.viwedList;
+		this.setState(() => {
+			return {
+				mainContent: this.viwedList
+			};
+		});
 	}
-	// Diğer turlarından ilk elelman gösterme işlemi
+//***************************************************************** */
 	diger_tur_click() {
-		this.setState((praveState) => {
+		this.setState(() => {
 			return {
-				List: KulturTurList
+				hasChanged: true
 			};
 		});
 
-		this.viwedList = [ DigerTurList()[0] ].map((tur) => (
+		this.viwedList = [ DigerTurList()[this.state.counterOfDiger] ].map((tur) => (
 			<CreatContent
+				key={tur.id}
 				turName={tur.name}
 				img={tur.img}
 				country={tur.country}
 				description={tur.description}
 				theState={tur.theState}
 				kategori={tur.kategori}
+				increment={this.increment}
+				reduce={this.reduce}
 			/>
 		));
-		this.state.mainContent = this.viwedList;
+		this.setState(() => {
+			return {
+				mainContent: this.viwedList
+			};
+		});
 	}
-
-
 
 	render() {
-		var theContent = this.state.mainContent;
-
 		return (
 			<div className="raw ">
+				<Head homePage={this.homePage} contact={this.contact} about={this.about} />
 				<ul className="nav justify-content-center bg-info btn-group rounded">
 					<a className="text-white btn btn-info" onClick={this.sgk_tur_click}>
 						<li>
-							<b>Sağlık Turları</b>
+							<b>Sağlık Turları {this.state.counterOfSgk}</b>
 						</li>
 					</a>
 
 					<a className="text-white btn btn-info" onClick={this.kultur_tur_click}>
 						<li>
-							<b>Kültür Turları</b>
+							<b>Kültür Turları {this.state.counterOfKultur}</b>
 						</li>
 					</a>
 
 					<a className="text-white btn btn-info" onClick={this.kis_tur_click}>
 						<li>
-							<b>Kış Turları</b>
+							<b>Kış Turları {this.state.counterOfKis}</b>
 						</li>
 					</a>
 
 					<a className="text-white btn btn-info" onClick={this.eglence_tur_click}>
 						<li>
 							{' '}
-							<b>Eğlence Turları</b>
+							<b>Eğlence Turları {this.state.counterOfEglence}</b>
 						</li>
 					</a>
 
 					<a className="text-white btn btn-info" onClick={this.diger_tur_click}>
 						<li>
-							<b>Diğer Turlar</b>
+							<b>Diğer Turlar {this.state.counterOfDiger + 1} / {DigerTurList().length}</b>
 						</li>
 					</a>
 				</ul>
-				{theContent}
+				{this.state.mainContent}
 			</div>
 		);
 	}
 }
 export default Content;
-
-/*	click() {
-		if (this.state.counter < this.state.myList.length) {
-			this.state.myNewList.push(this.state.myList[this.state.counter]);
-
-			this.setState((prevState) => {
-				return {
-					counter: prevState.counter + 1
-				};
-			});
-			this.viwedList = this.state.myNewList.map((tur) => (
-				<CreatContent
-					turName={tur.name}
-					img={tur.img}
-					country={tur.country}
-					description={tur.description}
-					theState={tur.theState}
-				/>
-			));
-		} else {
-			this.setState((prevState) => {
-				return {
-					durum: false
-				};
-			});
-			return this.state.durum;
-		}
-	}*/
-// sayac_plus_1() {
-// 	this.setState((praveState) => {
-// 		return {
-// 			Counter: praveState.Counter + 1
-// 		};
-// 	});
-// 	return this.state.Counter;
-// }

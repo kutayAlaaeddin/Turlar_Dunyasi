@@ -1,31 +1,47 @@
 import React, { Component } from 'react';
-import Conten from './Content';
 
 class CreatContent extends Component {
+	constructor(props) {
+		super(props);
+		this.state = {
+			hasChangedPls: false,
+			hasChangedM: false
+		};
+	}
+	reduce = () => {
+		this.setState(() => {
+			return {
+				hasChangedM: true
+			};
+		});
+		this.props.reduce(this.props.kategori);
+	};
 
+	increment = () => {
+		this.setState(() => {
+			return {
+				hasChangedPls: true
+			};
+		});
+		this.props.increment(this.props.kategori);
+	};
 
 	render() {
 		return (
 			<div className="slayd">
 				<a href="#">
 					{' '}
-					<i className="fas fa-chevron-left prev" />
+					<i className="fas fa-chevron-left prev" onClick={this.reduce} />
 				</a>
 
 				<div className="card hieght">
 					<div className="card-title hieght-t kart-header">
-						{/* eğer the state özelliği sabitse bu kod kullanılır
-						 <h5 className="badge badge-warning mx-auto text-gray">{this.props.theState}</h5> 
-						 */}
-
-						{/*theState adlı özelliğin değerine göre yazı ve style belirleme kısmı*/}
-
 						{(() => {
-							if (this.props.theState == 'indirimli')
+							if (this.props.theState === 'indirimli')
 								return <h5 className="badge badge-success">indirimli</h5>;
-							else if (this.props.theState == 'lastThreeDay')
+							else if (this.props.theState === 'lastThreeDay')
 								return <h5 className="badge badge-danger">Son 3 gün</h5>;
-							else if (this.props.theState == 'soon')
+							else if (this.props.theState === 'soon')
 								return <h5 className="badge badge-warning">Yakında</h5>;
 							else return null;
 						})()}
@@ -37,14 +53,11 @@ class CreatContent extends Component {
 					</div>
 					<div className="card-body card-text hieght-b">
 						<p>
-						{(() => {
-							if (this.props.description == null)
-								return <p>Lütfen detaylı bilgi için bizimle iletşime geçin</p>;
-							else
-								return <p>{this.props.description}</p>
-							
-						})()}
-							
+							{(() => {
+								if (this.props.description === null)
+									return <p>Lütfen detaylı bilgi için bizimle iletşime geçin</p>;
+								else return <p>{this.props.description}</p>;
+							})()}
 						</p>
 					</div>
 					<div className="card-footer">
@@ -56,7 +69,7 @@ class CreatContent extends Component {
 					</div>
 				</div>
 				<a href="#">
-					<i className="fas fa-chevron-right next" />
+					<i className="fas fa-chevron-right next" onClick={this.increment} />
 				</a>
 			</div>
 		);
